@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">AndroidApplicationTemplate</string>
+    <string name="app_name">Lastify Android</string>
+    <string name="lastifyfm">LastifyFM</string>
+    <string name="welcome">Welcome</string>
+    <string name="choose_any_genre_from_below">Choose any genre from below</string>
+    <string name="view_more_genres">View more genres</string>
 </resources>
