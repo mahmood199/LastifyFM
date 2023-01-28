@@ -1,7 +1,7 @@
 package com.example.androidapplicationtemplate.core.di
 
-import com.example.androidapplicationtemplate.domain.repository.SomeRepository
-import com.example.androidapplicationtemplate.domain.usecase.SomeUseCase
+import com.example.androidapplicationtemplate.domain.repository.TagRepository
+import com.example.androidapplicationtemplate.domain.usecase.GetTagsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +14,8 @@ object UseCaseModule {
 
 	@Provides
 	fun provideSomeUseCase(
-		someRepository: SomeRepository,
-	): SomeUseCase = SomeUseCase(someRepository)
+        tagRepository: TagRepository,
+	): GetTagsUseCase = GetTagsUseCase(tagRepository)
 
 
 }
