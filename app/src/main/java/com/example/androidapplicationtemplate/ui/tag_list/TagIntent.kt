@@ -1,8 +1,9 @@
 package com.example.androidapplicationtemplate.ui.tag_list
 
+import com.example.androidapplicationtemplate.data.models.response.Tag
+
 sealed class TagIntent {
     object GetTags : TagIntent()
-    object Intent2 : TagIntent()
-    object Intent3 : TagIntent()
-    object Intent4 : TagIntent()
+    object ShowMoreTags : TagIntent()
+    data class RedirectToGenreDetailScreen(val tag: Tag, val index: Int) : TagIntent()
 }

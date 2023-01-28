@@ -1,8 +1,7 @@
 package com.example.androidapplicationtemplate.ui.tag_list
 
+import com.example.androidapplicationtemplate.data.models.response.Tag
+
 sealed class TagEffect {
-    object Effect1 : TagEffect()
-    object Effect2 : TagEffect()
-    object Effect3 : TagEffect()
-    object Effect4 : TagEffect()
+    data class NavigateToGenreDetailScreen(val tag: Tag, val index: Int) : TagEffect()
 }
