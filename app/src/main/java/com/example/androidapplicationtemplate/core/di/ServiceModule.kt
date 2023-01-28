@@ -1,6 +1,6 @@
 package com.example.androidapplicationtemplate.core.di
 
-import com.example.androidapplicationtemplate.data.remote.remoteServices.SomeService
+import com.example.androidapplicationtemplate.data.remote.remoteServices.TagServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,8 +12,8 @@ import retrofit2.Retrofit
 object ServiceModule {
 
 	@Provides
-	fun provideSomeService(retrofit: Retrofit): SomeService {
-		return retrofit.create(SomeService::class.java)
+	fun provideTagService(retrofit: Retrofit): TagServices {
+		return retrofit.create(TagServices::class.java)
 	}
 
 }
