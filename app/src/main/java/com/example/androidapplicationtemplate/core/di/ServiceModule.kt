@@ -1,6 +1,7 @@
 package com.example.androidapplicationtemplate.core.di
 
 import com.example.androidapplicationtemplate.data.remote.remoteServices.AlbumServices
+import com.example.androidapplicationtemplate.data.remote.remoteServices.ArtistServices
 import com.example.androidapplicationtemplate.data.remote.remoteServices.TagServices
 import dagger.Module
 import dagger.Provides
@@ -21,6 +22,11 @@ object ServiceModule {
 	@Provides
 	fun provideAlbumServices(retrofit: Retrofit): AlbumServices {
 		return retrofit.create(AlbumServices::class.java)
+	}
+
+	@Provides
+	fun provideArtistServices(retrofit: Retrofit): ArtistServices {
+		return retrofit.create(ArtistServices::class.java)
 	}
 
 
