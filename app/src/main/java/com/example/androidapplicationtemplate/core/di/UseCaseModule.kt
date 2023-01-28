@@ -1,7 +1,9 @@
 package com.example.androidapplicationtemplate.core.di
 
+import com.example.androidapplicationtemplate.domain.repository.AlbumRepository
 import com.example.androidapplicationtemplate.domain.repository.TagRepository
-import com.example.androidapplicationtemplate.domain.usecase.GetTagsUseCase
+import com.example.androidapplicationtemplate.domain.usecase.GetAllTagsUseCase
+import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,10 +14,14 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
-	@Provides
-	fun provideSomeUseCase(
+    @Provides
+    fun provideSomeUseCase(
         tagRepository: TagRepository,
-	): GetTagsUseCase = GetTagsUseCase(tagRepository)
+    ) = GetAllTagsUseCase(tagRepository)
 
+    @Provides
+    fun provideAlbumsUseCase(
+		albumRepository: AlbumRepository,
+	) = GetTopAlbumsUseCase(albumRepository)
 
 }
