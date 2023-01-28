@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.someFeature
+package com.example.androidapplicationtemplate.ui.tag_list
 
 sealed class TagEffect {
     object Effect1 : TagEffect()

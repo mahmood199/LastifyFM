@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.someFeature
+package com.example.androidapplicationtemplate.ui.tag_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

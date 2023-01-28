@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.someFeature
+package com.example.androidapplicationtemplate.ui.tag_list
 
 sealed class TagIntent {
     object GetTags : TagIntent()

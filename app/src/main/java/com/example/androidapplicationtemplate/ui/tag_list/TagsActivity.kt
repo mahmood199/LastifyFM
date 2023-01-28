@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.someFeature
+package com.example.androidapplicationtemplate.ui.tag_list
 
 import android.os.Bundle
 import android.widget.Toast

@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.someFeature
+package com.example.androidapplicationtemplate.ui.tag_list
 
 import com.example.androidapplicationtemplate.data.models.response.TagListResponse
 
