@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Tag
-import com.example.androidapplicationtemplate.domain.usecase.GetTagsUseCase
+import com.example.androidapplicationtemplate.domain.usecase.GetAllTagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TagsViewModel @Inject constructor(
-	private val getTagsUseCase: GetTagsUseCase
+	private val getAllTagsUseCase: GetAllTagsUseCase
 ) : ViewModel() {
 
 	companion object {
@@ -63,7 +63,7 @@ class TagsViewModel @Inject constructor(
 
 	private fun doOperation1() {
 		viewModelScope.launch {
-			getTagsUseCase.invoke().collect {
+			getAllTagsUseCase.invoke().collect {
 				when(it) {
 					Resource.Default -> {}
 					is Resource.Failure -> {

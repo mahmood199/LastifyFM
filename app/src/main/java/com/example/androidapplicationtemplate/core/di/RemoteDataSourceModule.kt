@@ -1,6 +1,8 @@
 package com.example.androidapplicationtemplate.core.di
 
+import com.example.androidapplicationtemplate.data.remote.remoteDataSource.AlbumRemoteDataSource
 import com.example.androidapplicationtemplate.data.remote.remoteDataSource.TagRemoteDataSource
+import com.example.androidapplicationtemplate.data.remote.remoteServices.AlbumServices
 import com.example.androidapplicationtemplate.data.remote.remoteServices.TagServices
 import dagger.Module
 import dagger.Provides
@@ -11,11 +13,16 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object RemoteDataSourceModule {
 
-	@Provides
-	fun provideTagRemoteDataSource(
+    @Provides
+    fun provideTagRemoteDataSource(
         tagServices: TagServices,
-	): TagRemoteDataSource {
-		return TagRemoteDataSource(tagServices)
-	}
+    ) = TagRemoteDataSource(tagServices)
+
+
+    @Provides
+    fun provideAlbumRemoteDataSource(
+        albumServices: AlbumServices,
+    ) = AlbumRemoteDataSource(albumServices)
+
 
 }

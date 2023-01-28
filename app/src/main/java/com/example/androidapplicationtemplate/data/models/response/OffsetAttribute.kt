@@ -8,5 +8,13 @@ data class OffsetAttribute(
     @SerializedName("offset")
     val offset: Int,
     @SerializedName("total")
-    val total: Int
+    val total: Int,
+    @SerializedName("page")
+    val page: String,
+    @SerializedName("perPage")
+    val perPage: String,
+    @SerializedName("tag")
+    val tag: String,
+    @SerializedName("totalPages")
+    val totalPages: String,
 )
