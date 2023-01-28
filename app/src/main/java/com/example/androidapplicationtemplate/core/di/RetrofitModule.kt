@@ -1,5 +1,7 @@
 package com.example.androidapplicationtemplate.core.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,17 +17,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitModule {
 
 	private lateinit var retrofit: Retrofit
-	private const val BASE_URL = "https://en.wikipedia.org"
+	private const val BASE_URL = "http://ws.audioscrobbler.com/"
 
 	@Provides
 	fun getClient(
-		okHttpClient: OkHttpClient
+		okHttpClient: OkHttpClient,
+		gson: Gson
 	): Retrofit {
 		return if (this::retrofit.isInitialized)
 			retrofit
 		else {
 			retrofit = Retrofit.Builder()
-				.addConverterFactory(GsonConverterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create(gson))
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.client(okHttpClient)
 				.baseUrl(BASE_URL)
@@ -46,6 +49,13 @@ object RetrofitModule {
 		val logging = HttpLoggingInterceptor()
 		logging.level = HttpLoggingInterceptor.Level.BODY
 		return logging
+	}
+
+	@Provides
+	fun providesGson(): Gson {
+		return GsonBuilder()
+			.setLenient()
+			.create();
 	}
 
 
