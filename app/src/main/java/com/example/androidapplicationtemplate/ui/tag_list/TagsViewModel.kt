@@ -3,6 +3,7 @@ package com.example.androidapplicationtemplate.ui.tag_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
+import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.domain.usecase.GetTagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -15,8 +16,8 @@ class TagsViewModel @Inject constructor(
 	private val getTagsUseCase: GetTagsUseCase
 ) : ViewModel() {
 
-	init {
-	    receiveIntents()
+	companion object {
+		const val INITIAL_ITEMS_TO_BE_SHOWN = 10
 	}
 
 	val intents: Channel<TagIntent> =
@@ -30,18 +31,34 @@ class TagsViewModel @Inject constructor(
 	val effect: Flow<TagEffect>
 		get() = _effect.receiveAsFlow()
 
+	private val tags = mutableListOf<Tag>()
+	init {
+	    receiveIntents()
+	}
+
 
 	private fun receiveIntents() {
 		viewModelScope.launch {
 			intents.consumeAsFlow().collect {
 				when(it) {
 					TagIntent.GetTags -> doOperation1()
-					TagIntent.Intent2 -> doOperation2()
-					TagIntent.Intent3 -> doOperation3()
-					TagIntent.Intent4 -> doOperation4()
+					TagIntent.ShowMoreTags -> {
+						showMoreTags()
+					}
+					is TagIntent.RedirectToGenreDetailScreen -> navigateToGenreDetailScreen(it.tag, it.index)
 				}
 			}
 		}
+	}
+
+	private fun navigateToGenreDetailScreen(tag: Tag, index: Int) {
+		viewModelScope.launch {
+			_effect.send(TagEffect.NavigateToGenreDetailScreen(tag, index))
+		}
+	}
+
+	private fun showMoreTags() {
+		_state.value = TagState.ShowMoreTags(tags.subList(INITIAL_ITEMS_TO_BE_SHOWN, tags.size - 1))
 	}
 
 	private fun doOperation1() {
@@ -56,23 +73,13 @@ class TagsViewModel @Inject constructor(
 						_state.value = TagState.Loading
 					}
 					is Resource.Success -> {
-						_state.value = TagState.ResponseReceived(it.value)
+						tags.clear()
+						tags.addAll(it.value.topTags.tags)
+						_state.value = TagState.ResponseReceived(it.value.topTags.tags.take(INITIAL_ITEMS_TO_BE_SHOWN))
 					}
 				}
 			}
 		}
-	}
-
-	private fun doOperation2() {
-		TODO("Not yet implemented")
-	}
-
-	private fun doOperation3() {
-		TODO("Not yet implemented")
-	}
-
-	private fun doOperation4() {
-		TODO("Not yet implemented")
 	}
 
 
