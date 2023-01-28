@@ -1,12 +1,16 @@
 package com.example.androidapplicationtemplate.ui.tag_list
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.R
+import com.example.androidapplicationtemplate.core.extension.makeGone
+import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityTagsBinding
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -19,10 +23,23 @@ class TagsActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		binding = ActivityTagsBinding.inflate(layoutInflater)
-		setContentView(binding.root)
+		setViews()
 		setObservers()
 		triggerAction(TagIntent.GetTags)
+	}
+
+	private fun setViews() {
+		binding = ActivityTagsBinding.inflate(layoutInflater)
+		setContentView(binding.root)
+		setClickListeners()
+	}
+
+	private fun setClickListeners() {
+		binding.apply {
+			tvSeeMoreTags.setOnClickListener {
+				triggerAction(TagIntent.ShowMoreTags)
+			}
+		}
 	}
 
 	private fun setObservers() {
@@ -44,30 +61,56 @@ class TagsActivity : AppCompatActivity() {
 			TagState.Idle -> {}
 			TagState.Loading -> {}
 			is TagState.ResponseReceived -> {
-				Toast.makeText(this, "${it.tagListResponse.topTags.tags.size}", Toast.LENGTH_SHORT).show()
-				var text = ""
-				it.tagListResponse.topTags.tags.forEach {
-					text += "${it.name}			 ${it.count} 		${it.reach} \n"
-				}
-				binding.tvTags.text = text
+				addChipsToChipGroup(it.tags)
 			}
 			TagState.Error -> {
 				showError()
 			}
-			TagState.State4 -> TODO()
+			is TagState.ShowMoreTags -> {
+				binding.tvSeeMoreTags.makeGone()
+				addChipsToChipGroup(it.tags)
+			}
 		}
 	}
 
+	private fun addChipsToChipGroup(tags: List<Tag>) {
+		binding.apply {
+			tags.forEachIndexed { index, tag ->
+				val chip = getCustomChip(tag, index)
+                cgTags.addView(chip)
+			}
+		}
+	}
+
+	private fun getCustomChip(it: Tag, index: Int): Chip {
+		return Chip(this).apply {
+            text = it.name
+            isCloseIconVisible = false
+            setChipBackgroundColorResource(R.color.teal_200)
+            setTextColor(ContextCompat.getColor(this@TagsActivity, R.color.white))
+			setOnClickListener { _ ->
+				showText(it, index)
+			}
+			tag = it.count
+			setOnCloseIconClickListener {
+				binding.cgTags.removeViewAt(index)
+			}
+        }
+	}
+
+	private fun showText(it: Tag, index: Int) {
+		triggerAction(TagIntent.RedirectToGenreDetailScreen(it, index))
+	}
+
 	private fun showError() {
-		SnackBarBuilder.getSnackbar(this, "FAiled", Snackbar.LENGTH_SHORT).show()
+		SnackBarBuilder.getSnackbar(this, "Failed", Snackbar.LENGTH_SHORT).show()
 	}
 
 	private fun setUIEffect(it: TagEffect) {
 		when(it) {
-			TagEffect.Effect1 -> TODO()
-			TagEffect.Effect2 -> TODO()
-			TagEffect.Effect3 -> TODO()
-			TagEffect.Effect4 -> TODO()
+			is TagEffect.NavigateToGenreDetailScreen -> {
+				SnackBarBuilder.getSnackbar(this, "${it.tag} ${it.index}", Snackbar.LENGTH_SHORT).show()
+			}
 		}
 	}
 
