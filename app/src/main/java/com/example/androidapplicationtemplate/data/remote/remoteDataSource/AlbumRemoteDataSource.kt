@@ -11,9 +11,9 @@ class AlbumRemoteDataSource @Inject constructor(
     private val albumServices: AlbumServices,
 ) {
 
-    suspend fun getAlbums(tag: Tag): Resource<AlbumListResponse> {
+    suspend fun getAlbumsByTag(tag: Tag): Resource<AlbumListResponse> {
         return try {
-            val result = albumServices.getAlbums(tag.name)
+            val result = albumServices.getAlbumsByTag(tag.name)
             Resource.Success(result)
         } catch (e: Exception) {
             Resource.Failure(FailureStatus.API_FAIL)

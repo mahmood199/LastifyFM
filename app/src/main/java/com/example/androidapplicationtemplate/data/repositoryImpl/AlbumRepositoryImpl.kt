@@ -11,8 +11,8 @@ class AlbumRepositoryImpl @Inject constructor(
     private val remoteDataSource: AlbumRemoteDataSource,
 ) : AlbumRepository {
 
-    override suspend fun getAlbums(tag: Tag): Resource<AlbumListResponse> {
-        return remoteDataSource.getAlbums(tag)
+    override suspend fun getAlbumsByTag(tag: Tag): Resource<AlbumListResponse> {
+        return remoteDataSource.getAlbumsByTag(tag)
     }
 
 }

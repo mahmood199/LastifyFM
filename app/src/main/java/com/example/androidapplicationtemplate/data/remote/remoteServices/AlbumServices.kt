@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface AlbumServices {
 
     @GET("/2.0/?method=tag.gettopalbums&api_key=${API_KEY}&format=json")
-    suspend fun getAlbums(@Query("tag") tag: String): AlbumListResponse
+    suspend fun getAlbumsByTag(@Query("tag") tag: String): AlbumListResponse
 
 }
