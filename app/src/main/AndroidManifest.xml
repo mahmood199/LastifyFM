@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidApplicationTemplate">
         <activity
-            android:name=".ui.someFeature.TagsActivity"
+            android:name=".ui.tag_list.TagsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
