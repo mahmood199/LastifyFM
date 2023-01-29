@@ -48,4 +48,4 @@ This project follows the clean architecture which implies that each components i
 
 ![WhatsApp Image 2023-01-29 at 6 43 03 PM](https://user-images.githubusercontent.com/58071934/215341100-9117f53b-5e7d-4347-be09-4458625cae2f.jpeg)
 
-
+## That's all folks. Thanks for reading this far. Please star this if you find this useful
