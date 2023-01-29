@@ -7,18 +7,34 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.ui.genreDetails.fragment.AlbumsFragment
+import com.example.androidapplicationtemplate.ui.genreDetails.fragment.ArtistsFragment
 
 class TagInfoFragmentAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    val list: List<Album>,
+    val tag: Tag,
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = 3
 
-    override fun createFragment(position: Int): Fragment =
-        AlbumsFragment.newInstance(
-            position,
-            list[position],
-        )
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> AlbumsFragment.newInstance(
+                position,
+                tag,
+            )
+            1 -> ArtistsFragment.newInstance(
+                position,
+                tag,
+            )
+            2 -> ArtistsFragment.newInstance(
+                position,
+                tag,
+            )
+            else -> AlbumsFragment.newInstance(
+                position,
+                tag,
+            )
+        }
+    }
 }
