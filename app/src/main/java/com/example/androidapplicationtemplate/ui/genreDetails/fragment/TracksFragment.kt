@@ -87,7 +87,7 @@ class TracksFragment : Fragment() {
             TracksState.State1 -> {}
             is TracksState.ArgumentsProcessed -> {
                 binding.tvAlbumText.text = it.tag.name
-                triggerAction(TracksIntent.GetTopArtistsByTag)
+                triggerAction(TracksIntent.GetTopTracksByTag)
             }
             is TracksState.ShowArtistResult -> {
 
