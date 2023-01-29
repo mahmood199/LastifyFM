@@ -60,7 +60,6 @@ class ArtistsFragment : Fragment() {
         setViews()
         setObservers()
         getArgs()
-        triggerAction(ArtistsIntent.GetTopAlbumsByTag)
     }
 
     private fun getArgs() {
