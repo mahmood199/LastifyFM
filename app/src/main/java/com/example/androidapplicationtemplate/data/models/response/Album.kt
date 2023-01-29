@@ -1,18 +1,21 @@
 package com.example.androidapplicationtemplate.data.models.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Album(
     @SerializedName("@attr")
-    val rank: Rank,
+    val rank: Rank = Rank(),
     @SerializedName("artist")
-    val artist: Artist,
+    val artist: Artist = Artist(),
     @SerializedName("image")
-    val images: List<Image>,
+    val images: List<Image> = listOf(),
     @SerializedName("mbid")
-    val mbid: String,
+    val mbid: String = "",
     @SerializedName("name")
-    val name: String,
+    val name: String = "",
     @SerializedName("url")
-    val url: String
-)
+    val url: String = "",
+) : Parcelable
