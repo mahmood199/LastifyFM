@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.genres
+package com.example.androidapplicationtemplate.ui.genre
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

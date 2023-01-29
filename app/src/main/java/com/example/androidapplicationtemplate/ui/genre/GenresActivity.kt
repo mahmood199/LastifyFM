@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.genres
+package com.example.androidapplicationtemplate.ui.genre
 
 import android.content.Intent
 import android.os.Bundle
