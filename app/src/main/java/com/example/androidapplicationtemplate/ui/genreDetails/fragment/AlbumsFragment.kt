@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
@@ -66,7 +67,8 @@ class AlbumsFragment : Fragment() {
 
     private fun setViews() {
         binding.apply {
-            rvAlbumsText.adapter = GenericAdapter {
+            rvAlbums.recycledViewPool.setMaxRecycledViews(R.layout.layout_item_album, 5)
+            rvAlbums.adapter = GenericAdapter {
                 Toast.makeText(context, "Redirect To Album detail Activity", Toast.LENGTH_SHORT).show()
             }
         }
@@ -103,7 +105,7 @@ class AlbumsFragment : Fragment() {
 
     private fun addItemsToRecyclerView(albums: List<Album>) {
         binding.apply {
-            (rvAlbumsText.adapter as GenericAdapter).addItems(albums)
+            (rvAlbums.adapter as GenericAdapter).addItems(albums)
         }
     }
 
