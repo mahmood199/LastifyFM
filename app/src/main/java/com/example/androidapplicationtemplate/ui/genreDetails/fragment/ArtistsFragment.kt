@@ -1,18 +1,21 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.data.models.response.Artist
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentArtistsBinding
+import com.example.androidapplicationtemplate.ui.artist.ArtistInfoActivity
 import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.RecyclerViewItemClickAction
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.ArtistsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.ArtistsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.ArtistsState
@@ -68,8 +71,18 @@ class ArtistsFragment : Fragment() {
         binding.apply {
             rvArtists.recycledViewPool.setMaxRecycledViews(R.layout.layout_item_artists, 5)
             rvArtists.adapter = GenericAdapter {
-                Toast.makeText(context, "Redirect To Artist detail Activity", Toast.LENGTH_SHORT).show()
+                handleItemClickListener(it)
             }
+        }
+    }
+
+    private fun handleItemClickListener(it: RecyclerViewItemClickAction) {
+        when (it) {
+            is RecyclerViewItemClickAction.ArtistClicked -> {
+                Log.d("ArtistsFragment1", it.artist.toString())
+                triggerAction(ArtistsIntent.RedirectToArtistDetailScreen(it.artist.name))
+            }
+            else -> {}
         }
     }
 
@@ -112,6 +125,11 @@ class ArtistsFragment : Fragment() {
     private fun setUIEffect(it: ArtistsEffect) {
         when (it) {
             ArtistsEffect.Effect1 -> {}
+            is ArtistsEffect.NavigateToArtistDetailScreen -> {
+                Log.d("ArtistsFragment2", it.name)
+                startActivity(Intent(context, ArtistInfoActivity::class.java).putExtra(
+                    BundleKeyIdentifier.ARTIST, it.name))
+            }
         }
     }
 
