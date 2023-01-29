@@ -8,5 +8,7 @@ data class Tag(
     @SerializedName("name")
     val name: String,
     @SerializedName("reach")
-    val reach: Int = 0
+    val reach: Int = 0,
+    @SerializedName("wiki")
+    val wiki: Wiki,
 )
