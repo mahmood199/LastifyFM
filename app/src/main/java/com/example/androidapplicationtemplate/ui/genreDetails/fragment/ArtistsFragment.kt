@@ -91,11 +91,10 @@ class ArtistsFragment : Fragment() {
             ArtistsState.Loading -> {}
             ArtistsState.State1 -> {}
             is ArtistsState.ArgumentsProcessed -> {
-                binding.tvAlbumText.text = it.tag.name
                 triggerAction(ArtistsIntent.GetTopArtistsByTag)
             }
             is ArtistsState.ShowArtistResult -> {
-
+                binding.tvArtistsText.text = it.value.toString()
             }
         }
     }
