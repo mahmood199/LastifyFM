@@ -1,11 +1,15 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidapplicationtemplate.data.models.response.Album
+import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
+import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -28,6 +32,8 @@ class AlbumsViewModel @Inject constructor(
     val effect: Flow<AlbumsEffect>
         get() = _effect.receiveAsFlow()
 
+    private lateinit var tag : Album
+
     init {
         receiveIntents()
     }
@@ -48,9 +54,17 @@ class AlbumsViewModel @Inject constructor(
                     is AlbumsIntent.GetTopTracksByTag -> {
 
                     }
+                    is AlbumsIntent.GetArgs -> {
+                        processArgs(it.arguments)
+                    }
                 }
             }
         }
+    }
+
+    private fun processArgs(arguments: Bundle?) {
+        tag = arguments?.getParcelable(BundleKeyIdentifier.TAG) ?: Album()
+        _state.value = AlbumsState.ArgumentsProcessed(tag)
     }
 
 
