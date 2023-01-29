@@ -14,7 +14,7 @@ The role of each MVI component is as follows:
 For every action, **View** receives an **Intent**. The **Presenter(ViewModel)** observes the **Intent**. Then pass it on to respective domain layer to process same to give back **Model**. The resultant **Model** is translated to a state which is received by the **View**. 
 
 
-###Architecture - MVI + Clean Architecture
+### Architecture - MVI + Clean Architecture
 This project follows the clean architecture which implies that each components in the archirecture points in one direction. That means child classes don't have refernce to their parent classes. The app cna be divided into 3 major areas for handling of data. They are - 
 
 - Presentation/App: Consists of Activities, Fragments and ViewModels. This layer interacts with UI. 
@@ -25,7 +25,7 @@ This project follows the clean architecture which implies that each components i
 
 
 
-###Diagramatic representation of Dataflow
+### Diagramatic representation of Dataflow
 
 ![image](https://user-images.githubusercontent.com/58071934/215340662-c22a93da-7799-46d5-a2d6-e68e320df4d1.png)
 
