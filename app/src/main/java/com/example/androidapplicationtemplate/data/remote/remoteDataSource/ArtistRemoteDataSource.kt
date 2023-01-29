@@ -22,9 +22,9 @@ class ArtistRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getArtistDetails(artist: Artist): Resource<ArtistDetailResponse> {
+    suspend fun getArtistDetails(artist: String): Resource<ArtistDetailResponse> {
         return try {
-            val result = artistServices.getArtistDetails(artist.name)
+            val result = artistServices.getArtistDetails(artist)
             Resource.Success(result)
         } catch (e: Exception) {
             Resource.Failure(FailureStatus.API_FAIL)

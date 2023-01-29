@@ -1,18 +1,14 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
-import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
-import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopArtistsByTagUseCase
-import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.ArtistsEffect
-import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.ArtistsIntent
-import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
 import com.example.androidapplicationtemplate.ui.genreDetails.state.ArtistsState
 import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,8 +49,18 @@ class ArtistsViewModel @Inject constructor(
                     is ArtistsIntent.GetArgs -> {
                         processArgs(it.arguments)
                     }
+                    is ArtistsIntent.RedirectToArtistDetailScreen -> {
+                        navigateToArtistDetailScreen(it.artist)
+                    }
                 }
             }
+        }
+    }
+
+    private fun navigateToArtistDetailScreen(artist: String) {
+        viewModelScope.launch {
+            Log.d("ArtistsViewModel", artist)
+            _effect.send(ArtistsEffect.NavigateToArtistDetailScreen(artist))
         }
     }
 

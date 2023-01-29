@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.genres.GenresActivity">
+    tools:context=".ui.genre.GenresActivity">
 
 
     <androidx.appcompat.widget.AppCompatTextView

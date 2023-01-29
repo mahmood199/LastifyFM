@@ -7,6 +7,7 @@ object BundleKeyIdentifier {
 
     var POSITION_ARG = "position_arg"
     var TAG = "category_id"
+    var ARTIST = "ARTIST"
 
 
 }

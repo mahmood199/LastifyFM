@@ -14,7 +14,7 @@ class GetArtistInfoUseCase @Inject constructor(
     private val artistRepository: ArtistRepository
 ) {
 
-    suspend operator fun invoke(artist: Artist): Flow<Resource<ArtistDetailResponse>> = flow {
+    suspend operator fun invoke(artist: String): Flow<Resource<ArtistDetailResponse>> = flow {
         emit(Resource.Loading)
         val result = artistRepository.getArtistDetails(artist)
         emit(result)

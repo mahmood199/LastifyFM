@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Link(
     @SerializedName("#text")
-    val text: String,
+    val text: String = "",
     @SerializedName("href")
-    val href: String,
+    val href: String = "",
     @SerializedName("rel")
-    val rel: String,
+    val rel: String = "",
 ) : Parcelable
