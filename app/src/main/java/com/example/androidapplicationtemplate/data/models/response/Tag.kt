@@ -15,5 +15,5 @@ data class Tag(
     @SerializedName("wiki")
     val wiki: Wiki? = null,
     @SerializedName("url")
-    val url: String
+    val url: String = ""
 ) : Parcelable
