@@ -48,7 +48,7 @@ class AlbumsViewModel @Inject constructor(
 
                     }
                     is AlbumsIntent.GetTopAlbumsByTag -> {
-
+                        getTopAlbums(tag)
                     }
                     is AlbumsIntent.GetTopArtistsByTag -> {
 
