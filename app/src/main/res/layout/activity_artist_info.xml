@@ -1,92 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.genres.GenresActivity">
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lastifyfm"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_size_32"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_welcome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_size_20"
-        app:layout_constraintBottom_toTopOf="@+id/tv_choose_genre"
-        app:layout_constraintEnd_toEndOf="@+id/tv_title"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_choose_genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_any_genre_from_below"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
+    android:orientation="vertical"
+    tools:context=".ui.genre.GenresActivity">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nsv_tags"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gl_horizontal_20">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/ll_tags"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/cg_tags"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_artist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/padding_16" />
+                android:layout_height="@dimen/size_240"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_see_more_tags"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawableEnd="@drawable/ic_down_arrow"
-                android:padding="@dimen/padding_12"
-                android:text="@string/view_more_genres"
+                android:layout_marginBottom="@dimen/margin_32"
+                android:text="@string/lastifyfm"
                 android:textColor="@color/black"
-                android:textSize="@dimen/font_size_16" />
+                android:textSize="@dimen/font_size_32"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_artist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_playcount_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/playcount"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_20"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_artist"
+                app:layout_constraintEnd_toStartOf="@+id/tv_follower_text"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintVertical_bias="0.701" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_follower_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/followers"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_20"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_artist"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_playcount_text"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintVertical_bias="0.701" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_playcount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="24423"
+                android:textSize="@dimen/font_size_18"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_playcount_text"
+                app:layout_constraintEnd_toEndOf="@+id/tv_playcount_text"
+                app:layout_constraintStart_toStartOf="@+id/tv_playcount_text" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_follower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="24423"
+                android:textSize="@dimen/font_size_18"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_playcount_text"
+                app:layout_constraintEnd_toEndOf="@+id/tv_follower_text"
+                app:layout_constraintStart_toStartOf="@+id/tv_follower_text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/size_10"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_artist"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_item_tags" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_artist_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/rv_tags" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_top_tracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_12"
+                android:text="@string/top_tracks"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_20"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/tv_artist_info" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_top_tracks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="@+id/tv_top_tracks"
+                app:layout_constraintStart_toStartOf="@+id/tv_top_tracks"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_tracks"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_item_tracks" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_top_albums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_12"
+                android:layout_marginTop="@dimen/margin_12"
+                android:text="@string/top_tracks"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_20"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/rv_top_tracks" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_top_albums"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="@+id/tv_top_tracks"
+                app:layout_constraintStart_toStartOf="@+id/tv_top_tracks"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_albums"
+                tools:itemCount="5"
+                tools:listitem="@layout/layout_item_tracks" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_horizontal_20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
