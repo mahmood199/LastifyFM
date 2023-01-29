@@ -12,8 +12,8 @@ class TagRepositoryImpl @Inject constructor(
     private val remoteDataSource: TagRemoteDataSource,
 ) : TagRepository {
 
-    override suspend fun someCrudOperation(): Resource<TagListResponse> {
-        return Resource.Success(remoteDataSource.getTags())
+    override suspend fun getAllTags(): Resource<TagListResponse> {
+        return Resource.Success(remoteDataSource.getAllTags())
     }
 
 }

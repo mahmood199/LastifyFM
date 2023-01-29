@@ -8,8 +8,8 @@ class TagRemoteDataSource @Inject constructor(
     private val tagServices: TagServices,
 ) {
 
-    suspend fun getTags(): TagListResponse {
-        return tagServices.getTags()
+    suspend fun getAllTags(): TagListResponse {
+        return tagServices.getAllTags()
     }
 
 }

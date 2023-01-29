@@ -15,7 +15,7 @@ class GetAllTagsUseCase @Inject constructor(
 
     operator fun invoke(): Flow<Resource<TagListResponse>> = flow {
         emit(Resource.Loading)
-        val result = tagRepository.someCrudOperation()
+        val result = tagRepository.getAllTags()
         emit(result)
     }.flowOn(Dispatchers.IO)
 
