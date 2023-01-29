@@ -20,13 +20,13 @@ data class Artist(
     @SerializedName("streamable")
     val streamable: String = "",
     @SerializedName("bio")
-    val bio: Bio,
+    val bio: Bio = Bio(),
     @SerializedName("ontour")
-    val onTour: String,
+    val onTour: String = "",
     @SerializedName("similar")
-    val similar: Similar,
+    val similar: Similar = Similar(),
     @SerializedName("stats")
-    val stats: Stats,
+    val stats: Stats = Stats(),
     @SerializedName("tags")
-    val tags: Tags,
+    val tags: Tags = Tags(),
 ) : Parcelable, AdapterItems
