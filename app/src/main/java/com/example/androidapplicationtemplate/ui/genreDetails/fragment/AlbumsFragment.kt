@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
@@ -22,6 +25,7 @@ class AlbumsFragment : Fragment() {
 
     private lateinit var binding: FragmentAlbumsBinding
     private val viewModel by viewModels<AlbumsViewModel>()
+
 
     companion object {
         var POSITION_ARG = BundleKeyIdentifier.POSITION_ARG
@@ -61,7 +65,11 @@ class AlbumsFragment : Fragment() {
     }
 
     private fun setViews() {
-
+        binding.apply {
+            rvAlbumsText.adapter = GenericAdapter {
+                Toast.makeText(context, "Redirect To Album detail Activity", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setObservers() {
@@ -88,8 +96,14 @@ class AlbumsFragment : Fragment() {
                 triggerAction(AlbumsIntent.GetTopAlbumsByTag)
             }
             is AlbumsState.ShowAlbumResult -> {
-                binding.tvAlbumsText.text = it.value.toString()
+                addItemsToRecyclerView(it.value.albums.album)
             }
+        }
+    }
+
+    private fun addItemsToRecyclerView(albums: List<Album>) {
+        binding.apply {
+            (rvAlbumsText.adapter as GenericAdapter).addItems(albums)
         }
     }
 

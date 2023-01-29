@@ -8,12 +8,16 @@
     android:orientation="vertical"
     tools:context=".ui.genreDetails.fragment.AlbumsFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_albums_text"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_albums_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:textColor="@color/black"
+        tools:itemCount="5"
+        tools:listitem="@layout/layout_item_album"
         android:textSize="@dimen/font_size_32"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
