@@ -27,6 +27,11 @@ class GenreDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setViews()
         setObservers()
+        getTagDetails()
+    }
+
+    private fun getTagDetails() {
+        triggerAction(GenreDetailIntent.GetTagInfo(Tag(name = "disco")))
         triggerAction(GenreDetailIntent.GetTopAlbumsByTag(Tag(name = "disco")))
         triggerAction(GenreDetailIntent.GetTopArtistsByTag(Tag(name = "disco")))
         triggerAction(GenreDetailIntent.GetTopTracksByTag(Tag(name = "disco")))

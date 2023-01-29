@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Tag
+import com.example.androidapplicationtemplate.domain.usecase.GetTagInfoUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopArtistsByTagUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopTracksByTagUseCase
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GenreDetailViewModel @Inject constructor(
+    private val getTagInfoUseCase: GetTagInfoUseCase,
     private val getTopAlbumsByTagUseCase: GetTopAlbumsByTagUseCase,
     private val getTopArtistsByTagUseCase: GetTopArtistsByTagUseCase,
     private val getTopTracksByTagUseCase: GetTopTracksByTagUseCase,
@@ -41,6 +43,9 @@ class GenreDetailViewModel @Inject constructor(
         viewModelScope.launch {
             intents.consumeAsFlow().collect {
                 when(it) {
+                    is GenreDetailIntent.GetTagInfo -> {
+                        getTagInfo(it.tag)
+                    }
                     is GenreDetailIntent.GetTopAlbumsByTag -> {
                         getTopAlbums(it.tag)
                     }
@@ -49,6 +54,27 @@ class GenreDetailViewModel @Inject constructor(
                     }
                     is GenreDetailIntent.GetTopTracksByTag -> {
                         getTopTracks(it.tag)
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getTagInfo(tag: Tag) {
+        viewModelScope.launch {
+            getTagInfoUseCase(tag.name).collect {
+                when(it) {
+                    Resource.Default -> {
+
+                    }
+                    is Resource.Failure -> {
+
+                    }
+                    Resource.Loading -> {
+
+                    }
+                    is Resource.Success -> {
 
                     }
                 }
