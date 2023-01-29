@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Artist
+import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.data.models.response.Track
 import com.example.androidapplicationtemplate.databinding.LayoutItemAlbumBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemArtistsBinding
@@ -53,6 +54,8 @@ class GenericAdapter(
             R.layout.layout_item_album
         else if (list[position] is Artist)
             R.layout.layout_item_artists
+        else if(list[position] is Tag)
+            R.layout.layout_item_tags
         else
             R.layout.layout_item_tracks
     }
