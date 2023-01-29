@@ -10,5 +10,5 @@ data class Tag(
     @SerializedName("reach")
     val reach: Int = 0,
     @SerializedName("wiki")
-    val wiki: Wiki,
+    val wiki: Wiki? = null,
 )

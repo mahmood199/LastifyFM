@@ -16,22 +16,22 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
 
     @Provides
-    fun provideSomeUseCase(
+    fun provideGetAllTagsUseCase(
         tagRepository: TagRepository,
     ) = GetAllTagsUseCase(tagRepository)
 
     @Provides
-    fun provideAlbumsUseCase(
+    fun provideGetTopAlbumsByTagUseCase(
 		albumRepository: AlbumRepository,
 	) = GetTopAlbumsByTagUseCase(albumRepository)
 
     @Provides
-    fun provideAlbumsUseCase(
+    fun provideGetTopArtistsByTagUseCase(
         artistRepository: ArtistRepository,
     ) = GetTopArtistsByTagUseCase(artistRepository)
 
     @Provides
-    fun provideAlbumsUseCase(
+    fun provideGetTopTracksByTagUseCase(
         trackRepository: TrackRepository,
     ) = GetTopTracksByTagUseCase(trackRepository)
 
