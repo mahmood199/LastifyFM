@@ -77,5 +77,7 @@
     <dimen name="size_120">120dp</dimen>
     <dimen name="size_160">160dp</dimen>
     <dimen name="size_200">200dp</dimen>
+    <dimen name="size_240">240dp</dimen>
+    <dimen name="size_320">320dp</dimen>
 
 </resources>
