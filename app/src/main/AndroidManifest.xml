@@ -16,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidApplicationTemplate">
         <activity
+            android:name=".ui.genreDetails.GenreDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.genres.GenresActivity"
             android:exported="true">
             <intent-filter>
@@ -26,9 +33,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
