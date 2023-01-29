@@ -19,4 +19,14 @@ data class Artist(
     val image: List<Image> = listOf(),
     @SerializedName("streamable")
     val streamable: String = "",
+    @SerializedName("bio")
+    val bio: Bio,
+    @SerializedName("ontour")
+    val onTour: String,
+    @SerializedName("similar")
+    val similar: Similar,
+    @SerializedName("stats")
+    val stats: Stats,
+    @SerializedName("tags")
+    val tags: Tags,
 ) : Parcelable, AdapterItems
