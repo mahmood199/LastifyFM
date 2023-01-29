@@ -85,11 +85,10 @@ class AlbumsFragment : Fragment() {
             AlbumsState.State1 -> {}
             is AlbumsState.Error -> {}
             is AlbumsState.ArgumentsProcessed -> {
-                binding.tvAlbumText.text = it.tag.name
                 triggerAction(AlbumsIntent.GetTopAlbumsByTag)
             }
             is AlbumsState.ShowAlbumResult -> {
-                binding.tvAlbumText.text = it.value.albums.toString()
+                binding.tvAlbumsText.text = it.value.toString()
             }
         }
     }
