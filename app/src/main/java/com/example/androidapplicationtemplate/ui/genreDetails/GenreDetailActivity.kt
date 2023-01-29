@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.androidapplicationtemplate.R
-import com.example.androidapplicationtemplate.data.models.response.AlbumListResponse
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityGenreDetailBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.adapter.TagInfoFragmentAdapter
@@ -16,7 +15,7 @@ import com.example.androidapplicationtemplate.ui.genreDetails.state.GenreDetailS
 import com.example.androidapplicationtemplate.ui.genreDetails.viewmodel.GenreDetailViewModel
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -77,23 +76,21 @@ class GenreDetailActivity : AppCompatActivity() {
             GenreDetailState.State1 -> {
 
             }
-            GenreDetailState.ArgumentsParsed -> {
+            is GenreDetailState.ArgumentsParsed -> {
+                showFragmentsNow(it.tag)
                 getTagDetails()
             }
             is GenreDetailState.SetTagDescription -> {
                 setTagDescription(it.tag)
             }
-            is GenreDetailState.ShowAlbumResult -> {
-                showFragmentsNow(it.albumListResponse)
-            }
         }
     }
 
-    private fun showFragmentsNow(albumListResponse: AlbumListResponse) {
+    private fun showFragmentsNow(tag: Tag) {
         val adapter = TagInfoFragmentAdapter(
             supportFragmentManager,
             lifecycle,
-            albumListResponse.albums.album)
+            tag)
         binding.vp2Tag.adapter = adapter
         setTabs()
     }
@@ -106,6 +103,9 @@ class GenreDetailActivity : AppCompatActivity() {
                     text = it
                 })
             }
+            TabLayoutMediator(this.tlTagContentsTitle, this.vp2Tag) { tab, position ->
+                tab.text = tabList[position]
+            }.attach()
         }
     }
 

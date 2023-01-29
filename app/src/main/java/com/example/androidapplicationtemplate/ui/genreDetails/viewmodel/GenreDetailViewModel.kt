@@ -52,7 +52,6 @@ class GenreDetailViewModel @Inject constructor(
                         getTagInfo(tag)
                     }
                     is GenreDetailIntent.GetTopAlbumsByTag -> {
-                        getTopAlbums(tag)
                     }
                     is GenreDetailIntent.GetTopArtistsByTag -> {
                         getTopArtists(tag)
@@ -71,7 +70,7 @@ class GenreDetailViewModel @Inject constructor(
 
     private fun getTagParams(intent: Intent?) {
         tag = intent?.extras?.getParcelable(BundleKeyIdentifier.TAG) ?: Tag(name = "")
-        _state.value = GenreDetailState.ArgumentsParsed
+        _state.value = GenreDetailState.ArgumentsParsed(tag)
     }
 
     private fun getTagInfo(tag: Tag) {
@@ -86,22 +85,6 @@ class GenreDetailViewModel @Inject constructor(
                         _state.value = GenreDetailState.SetTagDescription(it.value.tag)
                     }
                     else -> {}
-                }
-            }
-        }
-    }
-
-
-    private fun getTopAlbums(tag: Tag) {
-        viewModelScope.launch {
-            getTopAlbumsByTagUseCase(tag).collect {
-                when(it) {
-                    is Resource.Failure -> {
-                        _state.value = GenreDetailState.Error(it.failureStatus, "")
-                    }
-                    is Resource.Success -> {
-                        _state.value = GenreDetailState.ShowAlbumResult(it.value)
-                    } else -> {}
                 }
             }
         }
