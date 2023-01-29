@@ -3,6 +3,7 @@ package com.example.androidapplicationtemplate.core.di
 import com.example.androidapplicationtemplate.data.remote.remoteServices.AlbumServices
 import com.example.androidapplicationtemplate.data.remote.remoteServices.ArtistServices
 import com.example.androidapplicationtemplate.data.remote.remoteServices.TagServices
+import com.example.androidapplicationtemplate.data.remote.remoteServices.TrackServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +30,9 @@ object ServiceModule {
 		return retrofit.create(ArtistServices::class.java)
 	}
 
+	@Provides
+	fun provideTrackServices(retrofit: Retrofit): TrackServices {
+		return retrofit.create(TrackServices::class.java)
+	}
 
 }
