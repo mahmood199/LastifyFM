@@ -1,5 +1,6 @@
 package com.example.androidapplicationtemplate.ui.genres
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.core.extension.makeGone
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityTagsBinding
+import com.example.androidapplicationtemplate.ui.genreDetails.GenreDetailActivity
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -89,7 +91,7 @@ class GenresActivity : AppCompatActivity() {
             setChipBackgroundColorResource(R.color.teal_200)
             setTextColor(ContextCompat.getColor(this@GenresActivity, R.color.white))
 			setOnClickListener { _ ->
-				showText(it, index)
+				showGenreDetail(it, index)
 			}
 			tag = it.count
 			setOnCloseIconClickListener {
@@ -98,7 +100,7 @@ class GenresActivity : AppCompatActivity() {
         }
 	}
 
-	private fun showText(it: Tag, index: Int) {
+	private fun showGenreDetail(it: Tag, index: Int) {
 		triggerAction(GenreIntent.RedirectToGenreDetailScreen(it, index))
 	}
 
@@ -109,7 +111,7 @@ class GenresActivity : AppCompatActivity() {
 	private fun setUIEffect(it: GenreEffect) {
 		when(it) {
 			is GenreEffect.NavigateToGenreDetailScreen -> {
-				SnackBarBuilder.getSnackbar(this, "${it.tag} ${it.index}", Snackbar.LENGTH_SHORT).show()
+				startActivity(Intent(this, GenreDetailActivity::class.java))
 			}
 		}
 	}
