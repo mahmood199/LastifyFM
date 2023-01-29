@@ -44,17 +44,8 @@ class AlbumsViewModel @Inject constructor(
         viewModelScope.launch {
             intents.consumeAsFlow().collect {
                 when(it) {
-                    is AlbumsIntent.GetTagInfo -> {
-
-                    }
                     is AlbumsIntent.GetTopAlbumsByTag -> {
                         getTopAlbums(tag)
-                    }
-                    is AlbumsIntent.GetTopArtistsByTag -> {
-
-                    }
-                    is AlbumsIntent.GetTopTracksByTag -> {
-
                     }
                     is AlbumsIntent.GetArgs -> {
                         processArgs(it.arguments)
