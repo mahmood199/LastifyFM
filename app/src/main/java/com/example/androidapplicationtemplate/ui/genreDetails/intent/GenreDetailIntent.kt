@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.genreDetails
+package com.example.androidapplicationtemplate.ui.genreDetails.intent
 
 import com.example.androidapplicationtemplate.data.models.response.Tag
 

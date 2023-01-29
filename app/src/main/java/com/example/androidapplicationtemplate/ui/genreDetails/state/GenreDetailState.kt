@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.genreDetails
+package com.example.androidapplicationtemplate.ui.genreDetails.state
 
 sealed class GenreDetailState{
     object Idle : GenreDetailState()

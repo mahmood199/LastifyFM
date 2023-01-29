@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.genreDetails
+package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +8,9 @@ import com.example.androidapplicationtemplate.domain.usecase.GetTagInfoUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopArtistsByTagUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopTracksByTagUseCase
+import com.example.androidapplicationtemplate.ui.genreDetails.effect.GenreDetailEffect
+import com.example.androidapplicationtemplate.ui.genreDetails.intent.GenreDetailIntent
+import com.example.androidapplicationtemplate.ui.genreDetails.state.GenreDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -32,8 +35,6 @@ class GenreDetailViewModel @Inject constructor(
     private val _effect = Channel<GenreDetailEffect>()
     val effect: Flow<GenreDetailEffect>
         get() = _effect.receiveAsFlow()
-
-    private val tags = mutableListOf<Tag>()
 
     init {
         receiveIntents()
