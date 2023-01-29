@@ -3,6 +3,7 @@ package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
@@ -36,7 +37,7 @@ class ArtistsViewModel @Inject constructor(
     val effect: Flow<ArtistsEffect>
         get() = _effect.receiveAsFlow()
 
-    private lateinit var tag : Album
+    private lateinit var tag : Tag
 
     init {
         receiveIntents()
@@ -53,7 +54,7 @@ class ArtistsViewModel @Inject constructor(
 
                     }
                     is ArtistsIntent.GetTopArtistsByTag -> {
-
+                        getTopArtists(tag)
                     }
                     is ArtistsIntent.GetTopTracksByTag -> {
 
@@ -67,9 +68,25 @@ class ArtistsViewModel @Inject constructor(
     }
 
     private fun processArgs(arguments: Bundle?) {
-        tag = arguments?.getParcelable(BundleKeyIdentifier.TAG) ?: Album()
+        tag = arguments?.getParcelable(BundleKeyIdentifier.TAG) ?: Tag(name = "")
         _state.value = ArtistsState.ArgumentsProcessed(tag)
     }
+
+    private fun getTopArtists(tag: Tag) {
+        viewModelScope.launch {
+            getTopArtistsByTagUseCase(tag).collect {
+                when(it) {
+                    is Resource.Failure -> {
+                        _state.value = ArtistsState.Error(it.failureStatus, "")
+                    }
+                    is Resource.Success -> {
+                        _state.value = ArtistsState.ShowArtistResult(it.value)
+                    } else -> {}
+                }
+            }
+        }
+    }
+
 
 
 }
