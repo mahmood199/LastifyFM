@@ -1,4 +1,4 @@
-package com.example.androidapplicationtemplate.ui.tag_list
+package com.example.androidapplicationtemplate.ui.genres
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -16,16 +16,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TagsActivity : AppCompatActivity() {
+class GenresActivity : AppCompatActivity() {
 
 	private lateinit var binding : ActivityTagsBinding
-	private val viewModel : TagsViewModel by viewModels()
+	private val viewModel : GenreViewModel by viewModels()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setViews()
 		setObservers()
-		triggerAction(TagIntent.GetTags)
+		triggerAction(GenreIntent.GetTags)
 	}
 
 	private fun setViews() {
@@ -37,7 +37,7 @@ class TagsActivity : AppCompatActivity() {
 	private fun setClickListeners() {
 		binding.apply {
 			tvSeeMoreTags.setOnClickListener {
-				triggerAction(TagIntent.ShowMoreTags)
+				triggerAction(GenreIntent.ShowMoreTags)
 			}
 		}
 	}
@@ -56,17 +56,17 @@ class TagsActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun setUIState(it: TagState) {
+	private fun setUIState(it: GenreState) {
 		when(it) {
-			TagState.Idle -> {}
-			TagState.Loading -> {}
-			is TagState.ResponseReceived -> {
+			GenreState.Idle -> {}
+			GenreState.Loading -> {}
+			is GenreState.ResponseReceived -> {
 				addChipsToChipGroup(it.tags)
 			}
-			TagState.Error -> {
+			GenreState.Error -> {
 				showError()
 			}
-			is TagState.ShowMoreTags -> {
+			is GenreState.ShowMoreTags -> {
 				binding.tvSeeMoreTags.makeGone()
 				addChipsToChipGroup(it.tags)
 			}
@@ -87,7 +87,7 @@ class TagsActivity : AppCompatActivity() {
             text = it.name
             isCloseIconVisible = false
             setChipBackgroundColorResource(R.color.teal_200)
-            setTextColor(ContextCompat.getColor(this@TagsActivity, R.color.white))
+            setTextColor(ContextCompat.getColor(this@GenresActivity, R.color.white))
 			setOnClickListener { _ ->
 				showText(it, index)
 			}
@@ -99,22 +99,22 @@ class TagsActivity : AppCompatActivity() {
 	}
 
 	private fun showText(it: Tag, index: Int) {
-		triggerAction(TagIntent.RedirectToGenreDetailScreen(it, index))
+		triggerAction(GenreIntent.RedirectToGenreDetailScreen(it, index))
 	}
 
 	private fun showError() {
 		SnackBarBuilder.getSnackbar(this, "Failed", Snackbar.LENGTH_SHORT).show()
 	}
 
-	private fun setUIEffect(it: TagEffect) {
+	private fun setUIEffect(it: GenreEffect) {
 		when(it) {
-			is TagEffect.NavigateToGenreDetailScreen -> {
+			is GenreEffect.NavigateToGenreDetailScreen -> {
 				SnackBarBuilder.getSnackbar(this, "${it.tag} ${it.index}", Snackbar.LENGTH_SHORT).show()
 			}
 		}
 	}
 
-	private fun triggerAction(it: TagIntent) {
+	private fun triggerAction(it: GenreIntent) {
 		lifecycleScope.launch {
 			viewModel.intents.send(it)
 		}
