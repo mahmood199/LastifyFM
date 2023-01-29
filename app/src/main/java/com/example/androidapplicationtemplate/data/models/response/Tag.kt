@@ -9,7 +9,7 @@ data class Tag(
     @SerializedName("count")
     val count: Int = 0,
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("reach")
     val reach: Int = 0,
     @SerializedName("wiki")
