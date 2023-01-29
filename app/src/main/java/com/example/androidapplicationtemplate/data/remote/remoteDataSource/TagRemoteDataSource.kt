@@ -4,6 +4,7 @@ import com.example.androidapplicationtemplate.core.network.FailureStatus
 import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.data.models.response.TagListResponse
+import com.example.androidapplicationtemplate.data.models.response.TagResponse
 import com.example.androidapplicationtemplate.data.remote.remoteServices.TagServices
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class TagRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun getTagInfo(tag: String): Resource<Tag> {
+    suspend fun getTagInfo(tag: String): Resource<TagResponse> {
         return try {
             val result = tagServices.getTagInfo(tag)
             Resource.Success(result)

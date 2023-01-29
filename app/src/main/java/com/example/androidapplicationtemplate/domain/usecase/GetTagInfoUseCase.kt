@@ -3,6 +3,7 @@ package com.example.androidapplicationtemplate.domain.usecase
 import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.AlbumListResponse
 import com.example.androidapplicationtemplate.data.models.response.Tag
+import com.example.androidapplicationtemplate.data.models.response.TagResponse
 import com.example.androidapplicationtemplate.domain.repository.TagRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,7 @@ class GetTagInfoUseCase @Inject constructor(
     private val tagRepository: TagRepository
 ) {
 
-    suspend operator fun invoke(tag: String): Flow<Resource<Tag>> = flow {
+    suspend operator fun invoke(tag: String): Flow<Resource<TagResponse>> = flow {
         emit(Resource.Loading)
         val result = tagRepository.getTagInfo(tag)
         emit(result)
