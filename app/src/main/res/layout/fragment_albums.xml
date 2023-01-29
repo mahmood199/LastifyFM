@@ -9,7 +9,7 @@
     tools:context=".ui.genreDetails.fragment.AlbumsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_albums_text"
+        android:id="@+id/rv_albums"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
