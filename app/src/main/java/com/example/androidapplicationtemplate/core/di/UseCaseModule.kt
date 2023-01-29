@@ -3,6 +3,7 @@ package com.example.androidapplicationtemplate.core.di
 import com.example.androidapplicationtemplate.domain.repository.AlbumRepository
 import com.example.androidapplicationtemplate.domain.repository.TagRepository
 import com.example.androidapplicationtemplate.domain.usecase.GetAllTagsUseCase
+import com.example.androidapplicationtemplate.domain.usecase.GetTagInfoUseCase
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import dagger.Module
 import dagger.Provides
@@ -23,5 +24,10 @@ object UseCaseModule {
     fun provideAlbumsUseCase(
 		albumRepository: AlbumRepository,
 	) = GetTopAlbumsByTagUseCase(albumRepository)
+
+    @Provides
+    fun provideTagInfoUseCase(
+        tagRepository: TagRepository,
+    ) = GetTagInfoUseCase(tagRepository)
 
 }
