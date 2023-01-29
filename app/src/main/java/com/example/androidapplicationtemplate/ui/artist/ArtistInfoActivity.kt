@@ -2,19 +2,20 @@ package com.example.androidapplicationtemplate.ui.artist
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.androidapplicationtemplate.R
-import com.example.androidapplicationtemplate.core.extension.makeGone
-import com.example.androidapplicationtemplate.data.models.response.Tag
+import com.example.androidapplicationtemplate.data.models.response.Artist
 import com.example.androidapplicationtemplate.databinding.ActivityArtistInfoBinding
-import com.example.androidapplicationtemplate.databinding.ActivityTagsBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.GenreDetailActivity
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
 import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
-import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,20 +30,31 @@ class ArtistInfoActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setViews()
 		setObservers()
-		triggerAction(ArtistInfoIntent.GetTags)
+		getArgs()
+	}
+
+	private fun getArgs() {
+		triggerAction(ArtistInfoIntent.GetArgs(intent))
 	}
 
 	private fun setViews() {
 		binding = ActivityArtistInfoBinding.inflate(layoutInflater)
 		setContentView(binding.root)
+		binding.rvTags.adapter = GenericAdapter {
+			Toast.makeText(this, "Do nothing here", Toast.LENGTH_SHORT).show()
+		}
+		binding.rvTopTracks.adapter = GenericAdapter {
+			Toast.makeText(this, "Do nothing here for Top tracks", Toast.LENGTH_SHORT).show()
+		}
+		binding.rvTopAlbums.adapter = GenericAdapter {
+			Toast.makeText(this, "Do nothing here for Top albums", Toast.LENGTH_SHORT).show()
+		}
 		setClickListeners()
 	}
 
 	private fun setClickListeners() {
 		binding.apply {
-			tvSeeMoreTags.setOnClickListener {
-				triggerAction(ArtistInfoIntent.ShowMoreTags)
-			}
+
 		}
 	}
 
@@ -64,46 +76,37 @@ class ArtistInfoActivity : AppCompatActivity() {
 		when(it) {
 			ArtistInfoState.Idle -> {}
 			ArtistInfoState.Loading -> {}
-			is ArtistInfoState.ResponseReceived -> {
-				addChipsToChipGroup(it.tags)
-			}
 			ArtistInfoState.Error -> {
 				showError()
 			}
-			is ArtistInfoState.ShowMoreTags -> {
-				binding.tvSeeMoreTags.makeGone()
-				addChipsToChipGroup(it.tags)
+			ArtistInfoState.ArgumentsParsed -> {
+				triggerAction(ArtistInfoIntent.GetArtistDetails)
+			}
+			is ArtistInfoState.SetArtistDetails -> {
+				setArtistDetails(it.artist)
 			}
 		}
 	}
 
-	private fun addChipsToChipGroup(tags: List<Tag>) {
+	private fun setArtistDetails(artist: Artist) {
 		binding.apply {
-			tags.forEachIndexed { index, tag ->
-				val chip = getCustomChip(tag, index)
-                cgTags.addView(chip)
-			}
+			tvTitle.text = artist.name
+			tvPlaycount.text = artist.stats.playCount
+			tvFollower.text = artist.stats.listeners
+
+			Glide.with(root)
+				.load(artist.image[2])
+				.placeholder(ContextCompat.getDrawable(root.context, R.drawable.place_holder))
+				.transition(DrawableTransitionOptions.withCrossFade(
+					GenericAdapter.CROSS_FADE_ANIMATION_DURATION))
+				.into(ivArtist)
+
+			(rvTags.adapter as GenericAdapter).addItems(artist.tags.tag)
+			(rvTopAlbums.adapter as GenericAdapter).addItems(artist.similar.artist)
+			(rvTopTracks.adapter as GenericAdapter).addItems(artist.similar.artist)
+
+
 		}
-	}
-
-	private fun getCustomChip(it: Tag, index: Int): Chip {
-		return Chip(this).apply {
-            text = it.name
-            isCloseIconVisible = false
-            setChipBackgroundColorResource(R.color.teal_200)
-            setTextColor(ContextCompat.getColor(this@ArtistInfoActivity, R.color.white))
-			setOnClickListener { _ ->
-				showGenreDetail(it, index)
-			}
-			tag = it.count
-			setOnCloseIconClickListener {
-				binding.cgTags.removeViewAt(index)
-			}
-        }
-	}
-
-	private fun showGenreDetail(it: Tag, index: Int) {
-		triggerAction(ArtistInfoIntent.RedirectToGenreDetailScreen(it, index))
 	}
 
 	private fun showError() {

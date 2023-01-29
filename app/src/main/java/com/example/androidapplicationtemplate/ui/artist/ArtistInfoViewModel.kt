@@ -1,11 +1,13 @@
 package com.example.androidapplicationtemplate.ui.artist
 
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Artist
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.domain.usecase.GetArtistInfoUseCase
+import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -31,24 +33,30 @@ class ArtistInfoViewModel @Inject constructor(
 	val effect: Flow<ArtistInfoEffect>
 		get() = _effect.receiveAsFlow()
 
-	private val tags = mutableListOf<Tag>()
+	private var artistName = ""
+
 	init {
 	    receiveIntents()
 	}
-
 
 	private fun receiveIntents() {
 		viewModelScope.launch {
 			intents.consumeAsFlow().collect {
 				when(it) {
-					ArtistInfoIntent.GetTags -> doOperation1()
-					ArtistInfoIntent.ShowMoreTags -> {
-						showMoreTags()
-					}
+					ArtistInfoIntent.GetArtistDetails -> getArtistDetails()
 					is ArtistInfoIntent.RedirectToGenreDetailScreen -> navigateToGenreDetailScreen(it.tag, it.index)
+					is ArtistInfoIntent.GetArgs -> {
+
+						processArgs(it.intent)
+					}
 				}
 			}
 		}
+	}
+
+	private fun processArgs(intent: Intent?) {
+		artistName = intent?.extras?.getString(BundleKeyIdentifier.ARTIST) ?: ""
+		_state.value = ArtistInfoState.ArgumentsParsed
 	}
 
 	private fun navigateToGenreDetailScreen(tag: Tag, index: Int) {
@@ -57,11 +65,7 @@ class ArtistInfoViewModel @Inject constructor(
 		}
 	}
 
-	private fun showMoreTags() {
-		_state.value = ArtistInfoState.ShowMoreTags(tags.subList(INITIAL_ITEMS_TO_BE_SHOWN, tags.size - 1))
-	}
-
-	private fun doOperation1() {
+	private fun getArtistDetails() {
 		viewModelScope.launch {
 			getArtistInfoUseCase.invoke(Artist()).collect {
 				when(it) {
@@ -73,7 +77,7 @@ class ArtistInfoViewModel @Inject constructor(
 						_state.value = ArtistInfoState.Loading
 					}
 					is Resource.Success -> {
-						_state.value = ArtistInfoState.ResponseReceived(it.value.artist)
+						_state.value = ArtistInfoState.SetArtistDetails(it.value.artist)
 					}
 				}
 			}
