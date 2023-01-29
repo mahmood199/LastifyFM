@@ -1,6 +1,7 @@
 package com.example.androidapplicationtemplate.data.models.response
 
 import android.os.Parcelable
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.AdapterItems
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -18,4 +19,4 @@ data class Album(
     val name: String = "",
     @SerializedName("url")
     val url: String = "",
-) : Parcelable
+) : Parcelable, AdapterItems
