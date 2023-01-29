@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.androidapplicationtemplate.data.models.response.Album
+import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
@@ -29,11 +29,11 @@ class AlbumsFragment : Fragment() {
 
         fun newInstance(
             position: Int,
-            album: Album,
+            tag: Tag,
         ) = AlbumsFragment().also { fragment ->
             Bundle().apply {
                 putInt(POSITION_ARG, position)
-                putParcelable(TAG, album)
+                putParcelable(TAG, tag)
                 fragment.arguments = this
             }
         }
@@ -81,12 +81,15 @@ class AlbumsFragment : Fragment() {
 
     private fun setUIState(it: AlbumsState) {
         when (it) {
-            AlbumsState.Error -> {}
             AlbumsState.Idle -> {}
             AlbumsState.Loading -> {}
             AlbumsState.State1 -> {}
+            is AlbumsState.Error -> {}
             is AlbumsState.ArgumentsProcessed -> {
-                binding.tvAlbumText.text = it.album.name
+                binding.tvAlbumText.text = it.tag.name
+            }
+            is AlbumsState.ShowAlbumResult -> {
+                binding.tvAlbumText.text = it.value.albums.toString()
             }
         }
     }

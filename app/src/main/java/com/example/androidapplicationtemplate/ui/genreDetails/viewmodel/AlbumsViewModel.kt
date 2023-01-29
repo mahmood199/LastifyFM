@@ -3,12 +3,14 @@ package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidapplicationtemplate.core.network.Resource
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.domain.usecase.GetTopAlbumsByTagUseCase
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
+import com.example.androidapplicationtemplate.ui.genreDetails.state.GenreDetailState
 import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -32,7 +34,7 @@ class AlbumsViewModel @Inject constructor(
     val effect: Flow<AlbumsEffect>
         get() = _effect.receiveAsFlow()
 
-    private lateinit var tag : Album
+    private lateinit var tag : Tag
 
     init {
         receiveIntents()
@@ -63,8 +65,23 @@ class AlbumsViewModel @Inject constructor(
     }
 
     private fun processArgs(arguments: Bundle?) {
-        tag = arguments?.getParcelable(BundleKeyIdentifier.TAG) ?: Album()
+        tag = arguments?.getParcelable(BundleKeyIdentifier.TAG) ?: Tag(name = "")
         _state.value = AlbumsState.ArgumentsProcessed(tag)
+    }
+
+    private fun getTopAlbums(tag: Tag) {
+        viewModelScope.launch {
+            getTopAlbumsByTagUseCase(tag).collect {
+                when(it) {
+                    is Resource.Failure -> {
+                        _state.value = AlbumsState.Error(it.failureStatus, "")
+                    }
+                    is Resource.Success -> {
+                        _state.value = AlbumsState.ShowAlbumResult(it.value)
+                    } else -> {}
+                }
+            }
+        }
     }
 
 
