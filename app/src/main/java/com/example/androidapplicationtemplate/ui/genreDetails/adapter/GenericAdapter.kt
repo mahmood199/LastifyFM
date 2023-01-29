@@ -13,6 +13,7 @@ import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.data.models.response.Track
 import com.example.androidapplicationtemplate.databinding.LayoutItemAlbumBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemArtistsBinding
+import com.example.androidapplicationtemplate.databinding.LayoutItemTagsBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemTracksBinding
 
 class GenericAdapter(
@@ -33,6 +34,9 @@ class GenericAdapter(
             R.layout.layout_item_artists -> ArtistViewHolder(LayoutItemArtistsBinding.inflate(
                 LayoutInflater.from(parent.context)
             ))
+            R.layout.layout_item_tags -> TagViewHolder(LayoutItemTagsBinding.inflate(
+                LayoutInflater.from(parent.context)
+            ))
             else -> TrackViewHolder(LayoutItemTracksBinding.inflate(
                 LayoutInflater.from(parent.context)
             ))
@@ -44,6 +48,7 @@ class GenericAdapter(
             is AlbumViewHolder -> holder.bind(list[position] as Album)
             is ArtistViewHolder -> holder.bind(list[position] as Artist)
             is TrackViewHolder -> holder.bind(list[position] as Track)
+            is TagViewHolder -> holder.bind(list[position] as Tag)
         }
     }
 
@@ -123,6 +128,17 @@ class GenericAdapter(
             }
         }
     }
+
+
+    inner class TagViewHolder(private val binding: LayoutItemTagsBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(tag: Tag) {
+            binding.apply {
+                tvAlbum.text = tag.name
+            }
+        }
+    }
+
 
 
 }
