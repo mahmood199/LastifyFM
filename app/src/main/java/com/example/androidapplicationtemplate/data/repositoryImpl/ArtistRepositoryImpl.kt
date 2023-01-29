@@ -17,7 +17,7 @@ class ArtistRepositoryImpl @Inject constructor(
         return remoteDataSource.getArtistsByTag(tag)
     }
 
-    override suspend fun getArtistDetails(artist: Artist): Resource<ArtistDetailResponse> {
+    override suspend fun getArtistDetails(artist: String): Resource<ArtistDetailResponse> {
         return remoteDataSource.getArtistDetails(artist)
     }
 

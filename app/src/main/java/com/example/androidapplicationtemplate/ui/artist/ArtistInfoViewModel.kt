@@ -1,6 +1,7 @@
 package com.example.androidapplicationtemplate.ui.artist
 
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
@@ -18,10 +19,6 @@ import javax.inject.Inject
 class ArtistInfoViewModel @Inject constructor(
 	private val getArtistInfoUseCase: GetArtistInfoUseCase
 ) : ViewModel() {
-
-	companion object {
-		const val INITIAL_ITEMS_TO_BE_SHOWN = 10
-	}
 
 	val intents: Channel<ArtistInfoIntent> = Channel(Channel.UNLIMITED)
 
@@ -46,7 +43,6 @@ class ArtistInfoViewModel @Inject constructor(
 					ArtistInfoIntent.GetArtistDetails -> getArtistDetails()
 					is ArtistInfoIntent.RedirectToGenreDetailScreen -> navigateToGenreDetailScreen(it.tag, it.index)
 					is ArtistInfoIntent.GetArgs -> {
-
 						processArgs(it.intent)
 					}
 				}
@@ -54,8 +50,9 @@ class ArtistInfoViewModel @Inject constructor(
 		}
 	}
 
-	private fun processArgs(intent: Intent?) {
-		artistName = intent?.extras?.getString(BundleKeyIdentifier.ARTIST) ?: ""
+	private fun processArgs(intent: Intent) {
+		Log.d("ArtistInfoViewModel", intent.extras?.getString(BundleKeyIdentifier.ARTIST) ?: "")
+		artistName = intent.extras?.getString(BundleKeyIdentifier.ARTIST) ?: ""
 		_state.value = ArtistInfoState.ArgumentsParsed
 	}
 
@@ -67,7 +64,7 @@ class ArtistInfoViewModel @Inject constructor(
 
 	private fun getArtistDetails() {
 		viewModelScope.launch {
-			getArtistInfoUseCase.invoke(Artist()).collect {
+			getArtistInfoUseCase.invoke(artistName).collect {
 				when(it) {
 					Resource.Default -> {}
 					is Resource.Failure -> {
