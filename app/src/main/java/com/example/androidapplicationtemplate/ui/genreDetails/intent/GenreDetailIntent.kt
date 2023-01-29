@@ -1,10 +1,11 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.intent
 
-import com.example.androidapplicationtemplate.data.models.response.Tag
+import android.content.Intent
 
 sealed class GenreDetailIntent {
-    data class GetTagInfo(val tag: Tag) : GenreDetailIntent()
-    data class GetTopAlbumsByTag(val tag: Tag) : GenreDetailIntent()
-    data class GetTopArtistsByTag(val tag: Tag) : GenreDetailIntent()
-    data class GetTopTracksByTag(val tag: Tag) : GenreDetailIntent()
+    object GetTagInfo : GenreDetailIntent()
+    object GetTopAlbumsByTag : GenreDetailIntent()
+    object GetTopArtistsByTag : GenreDetailIntent()
+    object GetTopTracksByTag : GenreDetailIntent()
+    data class ParseArgs(val intent: Intent?) : GenreDetailIntent()
 }

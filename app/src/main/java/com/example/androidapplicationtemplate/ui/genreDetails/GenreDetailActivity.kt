@@ -2,8 +2,10 @@ package com.example.androidapplicationtemplate.ui.genreDetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityGenreDetailBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.GenreDetailEffect
@@ -18,21 +20,18 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class GenreDetailActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityGenreDetailBinding
-    private val viewModel : GenreDetailViewModel by viewModels()
+    private lateinit var binding: ActivityGenreDetailBinding
+    private val viewModel: GenreDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setViews()
         setObservers()
-        getTagDetails()
+        getArgs()
     }
 
-    private fun getTagDetails() {
-        triggerAction(GenreDetailIntent.GetTagInfo(Tag(name = "disco")))
-        triggerAction(GenreDetailIntent.GetTopAlbumsByTag(Tag(name = "disco")))
-        triggerAction(GenreDetailIntent.GetTopArtistsByTag(Tag(name = "disco")))
-        triggerAction(GenreDetailIntent.GetTopTracksByTag(Tag(name = "disco")))
+    private fun getArgs() {
+        triggerAction(GenreDetailIntent.ParseArgs(intent))
     }
 
     private fun setViews() {
@@ -62,9 +61,9 @@ class GenreDetailActivity : AppCompatActivity() {
     }
 
     private fun setUIState(it: GenreDetailState) {
-        when(it) {
-            GenreDetailState.Error -> {
-
+        when (it) {
+            is GenreDetailState.Error -> {
+                showError()
             }
             GenreDetailState.Idle -> {
 
@@ -75,16 +74,43 @@ class GenreDetailActivity : AppCompatActivity() {
             GenreDetailState.State1 -> {
 
             }
+            GenreDetailState.ArgumentsParsed -> {
+                getTagDetails()
+            }
+            is GenreDetailState.SetTagDescription -> {
+                setTagDescription(it.tag)
+            }
         }
     }
 
+    private fun setTagDescription(tag: Tag) {
+        Toast.makeText(this, tag.name, Toast.LENGTH_SHORT).show()
+        binding.apply {
+            tvTagName.text = tag.name
+            tvTagInfo.text = tag.wiki?.content?.substring(0, 200) ?: ""
+        }
+    }
+
+    private fun getTagDetails() {
+        triggerAction(GenreDetailIntent.GetTagInfo)
+        triggerAction(GenreDetailIntent.GetTopAlbumsByTag)
+        triggerAction(GenreDetailIntent.GetTopArtistsByTag)
+        triggerAction(GenreDetailIntent.GetTopTracksByTag)
+    }
+
+
     private fun setUIEffect(it: GenreDetailEffect) {
-        when(it) {
+        when (it) {
             is GenreDetailEffect.Effect1 -> {
                 SnackBarBuilder.getSnackbar(this, "OKAY", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun showError() {
+        SnackBarBuilder.getSnackbar(this, getString(R.string.error_something_went_wrong), Snackbar.LENGTH_SHORT).show()
+    }
+
 
     private fun triggerAction(it: GenreDetailIntent) {
         lifecycleScope.launch {

@@ -11,6 +11,7 @@ import com.example.androidapplicationtemplate.core.extension.makeGone
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityTagsBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.GenreDetailActivity
+import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -111,7 +112,9 @@ class GenresActivity : AppCompatActivity() {
 	private fun setUIEffect(it: GenreEffect) {
 		when(it) {
 			is GenreEffect.NavigateToGenreDetailScreen -> {
-				startActivity(Intent(this, GenreDetailActivity::class.java))
+				startActivity(
+                    Intent(this, GenreDetailActivity::class.java)
+                        .putExtra(BundleKeyIdentifier.TAG, it.tag))
 			}
 		}
 	}

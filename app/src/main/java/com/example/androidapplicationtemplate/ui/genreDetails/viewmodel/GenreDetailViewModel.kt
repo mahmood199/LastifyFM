@@ -1,5 +1,6 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.viewmodel
 
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidapplicationtemplate.core.network.Resource
@@ -11,6 +12,7 @@ import com.example.androidapplicationtemplate.domain.usecase.GetTopTracksByTagUs
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.GenreDetailEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.GenreDetailIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.GenreDetailState
+import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -36,6 +38,8 @@ class GenreDetailViewModel @Inject constructor(
     val effect: Flow<GenreDetailEffect>
         get() = _effect.receiveAsFlow()
 
+    private lateinit var tag : Tag
+
     init {
         receiveIntents()
     }
@@ -45,39 +49,43 @@ class GenreDetailViewModel @Inject constructor(
             intents.consumeAsFlow().collect {
                 when(it) {
                     is GenreDetailIntent.GetTagInfo -> {
-                        getTagInfo(it.tag)
+                        getTagInfo(tag)
                     }
                     is GenreDetailIntent.GetTopAlbumsByTag -> {
-                        getTopAlbums(it.tag)
+                        getTopAlbums(tag)
                     }
                     is GenreDetailIntent.GetTopArtistsByTag -> {
-                        getTopArtists(it.tag)
+                        getTopArtists(tag)
                     }
                     is GenreDetailIntent.GetTopTracksByTag -> {
-                        getTopTracks(it.tag)
+                        getTopTracks(tag)
 
+                    }
+                    is GenreDetailIntent.ParseArgs -> {
+                        getTagParams(it.intent)
                     }
                 }
             }
         }
     }
 
+    private fun getTagParams(intent: Intent?) {
+        tag = intent?.extras?.getParcelable(BundleKeyIdentifier.TAG) ?: Tag(name = "")
+        _state.value = GenreDetailState.ArgumentsParsed
+    }
+
     private fun getTagInfo(tag: Tag) {
         viewModelScope.launch {
             getTagInfoUseCase(tag.name).collect {
                 when(it) {
-                    Resource.Default -> {
-
-                    }
                     is Resource.Failure -> {
-
-                    }
-                    Resource.Loading -> {
-
+                        _state.value = GenreDetailState.Error(it.failureStatus, "")
                     }
                     is Resource.Success -> {
-
+                        this@GenreDetailViewModel.tag = it.value.tag
+                        _state.value = GenreDetailState.SetTagDescription(it.value.tag)
                     }
+                    else -> {}
                 }
             }
         }
