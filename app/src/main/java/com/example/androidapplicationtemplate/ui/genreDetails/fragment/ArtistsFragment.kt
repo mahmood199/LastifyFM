@@ -5,19 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.androidapplicationtemplate.data.models.response.Album
+import com.example.androidapplicationtemplate.R
+import com.example.androidapplicationtemplate.data.models.response.Artist
 import com.example.androidapplicationtemplate.data.models.response.Tag
-import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
 import com.example.androidapplicationtemplate.databinding.FragmentArtistsBinding
-import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.ArtistsEffect
-import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.ArtistsIntent
-import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
 import com.example.androidapplicationtemplate.ui.genreDetails.state.ArtistsState
-import com.example.androidapplicationtemplate.ui.genreDetails.viewmodel.AlbumsViewModel
 import com.example.androidapplicationtemplate.ui.genreDetails.viewmodel.ArtistsViewModel
 import com.example.androidapplicationtemplate.util.BundleKeyIdentifier
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,7 +65,12 @@ class ArtistsFragment : Fragment() {
     }
 
     private fun setViews() {
-
+        binding.apply {
+            rvArtists.recycledViewPool.setMaxRecycledViews(R.layout.layout_item_artists, 5)
+            rvArtists.adapter = GenericAdapter {
+                Toast.makeText(context, "Redirect To Artist detail Activity", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setObservers() {
@@ -94,10 +97,17 @@ class ArtistsFragment : Fragment() {
                 triggerAction(ArtistsIntent.GetTopArtistsByTag)
             }
             is ArtistsState.ShowArtistResult -> {
-                binding.tvArtistsText.text = it.value.toString()
+                addItemsToRecyclerView(it.value.topArtists.artist)
             }
         }
     }
+
+    private fun addItemsToRecyclerView(artists: List<Artist>) {
+        binding.apply {
+            (rvArtists.adapter as GenericAdapter).addItems(artists)
+        }
+    }
+
 
     private fun setUIEffect(it: ArtistsEffect) {
         when (it) {
