@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.R
+import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.AlbumsState
@@ -22,6 +26,7 @@ class AlbumsFragment : Fragment() {
 
     private lateinit var binding: FragmentAlbumsBinding
     private val viewModel by viewModels<AlbumsViewModel>()
+
 
     companion object {
         var POSITION_ARG = BundleKeyIdentifier.POSITION_ARG
@@ -61,7 +66,12 @@ class AlbumsFragment : Fragment() {
     }
 
     private fun setViews() {
-
+        binding.apply {
+            rvAlbums.recycledViewPool.setMaxRecycledViews(R.layout.layout_item_album, 5)
+            rvAlbums.adapter = GenericAdapter {
+                Toast.makeText(context, "Redirect To Album detail Activity", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setObservers() {
@@ -85,12 +95,17 @@ class AlbumsFragment : Fragment() {
             AlbumsState.State1 -> {}
             is AlbumsState.Error -> {}
             is AlbumsState.ArgumentsProcessed -> {
-                binding.tvAlbumText.text = it.tag.name
                 triggerAction(AlbumsIntent.GetTopAlbumsByTag)
             }
             is AlbumsState.ShowAlbumResult -> {
-                binding.tvAlbumText.text = it.value.albums.toString()
+                addItemsToRecyclerView(it.value.albums.album)
             }
+        }
+    }
+
+    private fun addItemsToRecyclerView(albums: List<Album>) {
+        binding.apply {
+            (rvAlbums.adapter as GenericAdapter).addItems(albums)
         }
     }
 

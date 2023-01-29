@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.androidapplicationtemplate.R
 import com.example.androidapplicationtemplate.data.models.response.Tag
+import com.example.androidapplicationtemplate.data.models.response.Track
 import com.example.androidapplicationtemplate.databinding.FragmentTracksBinding
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.GenericAdapter
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.TracksEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.TracksIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.TracksState
@@ -62,7 +66,12 @@ class TracksFragment : Fragment() {
     }
 
     private fun setViews() {
-
+        binding.apply {
+            rvTracks.recycledViewPool.setMaxRecycledViews(R.layout.layout_item_tracks, 5)
+            rvTracks.adapter = GenericAdapter {
+                Toast.makeText(context, "Redirect To Track detail Activity", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setObservers() {
@@ -86,12 +95,17 @@ class TracksFragment : Fragment() {
             TracksState.Loading -> {}
             TracksState.State1 -> {}
             is TracksState.ArgumentsProcessed -> {
-                binding.tvAlbumText.text = it.tag.name
-                triggerAction(TracksIntent.GetTopArtistsByTag)
+                triggerAction(TracksIntent.GetTopTracksByTag)
             }
             is TracksState.ShowArtistResult -> {
-
+                addItemsToRecyclerView(it.value.tracks.track)
             }
+        }
+    }
+
+    private fun addItemsToRecyclerView(track: List<Track>) {
+        binding.apply {
+            (rvTracks.adapter as GenericAdapter).addItems(track)
         }
     }
 

@@ -41,16 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/tv_tag_info"
-            app:tabBackground="@color/white"
             app:tabIndicator="@color/black"
             app:tabIndicatorColor="@color/teal_700"
-            app:tabRippleColor="@color/teal_700"
-            app:tabUnboundedRipple="true"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextColor="@color/black" />
+            app:tabRippleColor="@color/teal_700"
+            app:tabSelectedTextColor="@color/purple_700"
+            app:tabTextColor="@color/black"
+            app:tabUnboundedRipple="true" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp2_tag"

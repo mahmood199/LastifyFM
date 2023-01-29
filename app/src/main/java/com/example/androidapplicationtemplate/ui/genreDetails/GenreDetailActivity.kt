@@ -91,6 +91,7 @@ class GenreDetailActivity : AppCompatActivity() {
             supportFragmentManager,
             lifecycle,
             tag)
+        binding.vp2Tag.offsetLeftAndRight(3)
         binding.vp2Tag.adapter = adapter
         setTabs()
     }

@@ -1,0 +1,3 @@
+package com.example.androidapplicationtemplate.ui.genreDetails.adapter
+
+interface AdapterItems

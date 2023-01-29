@@ -42,14 +42,6 @@ class TracksViewModel @Inject constructor(
         viewModelScope.launch {
             intents.consumeAsFlow().collect {
                 when(it) {
-                    is TracksIntent.GetTagInfo -> {
-
-                    }
-                    is TracksIntent.GetTopAlbumsByTag -> {
-
-                    }
-                    is TracksIntent.GetTopArtistsByTag -> {
-                    }
                     is TracksIntent.GetTopTracksByTag -> {
                         getTopTracks(tag)
                     }
