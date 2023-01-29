@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.ui.genreDetails.fragment.AlbumsFragment
 import com.example.androidapplicationtemplate.ui.genreDetails.fragment.ArtistsFragment
+import com.example.androidapplicationtemplate.ui.genreDetails.fragment.TracksFragment
 
 class TagInfoFragmentAdapter(
     fragmentManager: FragmentManager,
@@ -27,7 +27,7 @@ class TagInfoFragmentAdapter(
                 position,
                 tag,
             )
-            2 -> ArtistsFragment.newInstance(
+            2 -> TracksFragment.newInstance(
                 position,
                 tag,
             )
