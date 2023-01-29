@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.androidapplicationtemplate.data.models.response.Album
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.FragmentAlbumsBinding
+import com.example.androidapplicationtemplate.databinding.FragmentArtistsBinding
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.AlbumsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.ArtistsEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.AlbumsIntent
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ArtistsFragment : Fragment() {
 
-    private lateinit var binding: FragmentAlbumsBinding
+    private lateinit var binding: FragmentArtistsBinding
     private val viewModel by viewModels<ArtistsViewModel>()
 
     companion object {
@@ -49,7 +50,7 @@ class ArtistsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentAlbumsBinding.inflate(inflater)
+        binding = FragmentArtistsBinding.inflate(inflater)
         return binding.root
     }
 
