@@ -4,4 +4,5 @@
     <string name="welcome">Welcome</string>
     <string name="choose_any_genre_from_below">Choose any genre from below</string>
     <string name="view_more_genres">View more genres</string>
+    <string name="error_something_went_wrong">Something went wrong</string>
 </resources>
