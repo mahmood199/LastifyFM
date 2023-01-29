@@ -6,14 +6,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.androidapplicationtemplate.R
+import com.example.androidapplicationtemplate.data.models.response.AlbumListResponse
 import com.example.androidapplicationtemplate.data.models.response.Tag
 import com.example.androidapplicationtemplate.databinding.ActivityGenreDetailBinding
+import com.example.androidapplicationtemplate.ui.genreDetails.adapter.TagInfoFragmentAdapter
 import com.example.androidapplicationtemplate.ui.genreDetails.effect.GenreDetailEffect
 import com.example.androidapplicationtemplate.ui.genreDetails.intent.GenreDetailIntent
 import com.example.androidapplicationtemplate.ui.genreDetails.state.GenreDetailState
 import com.example.androidapplicationtemplate.ui.genreDetails.viewmodel.GenreDetailViewModel
 import com.example.androidapplicationtemplate.util.SnackBarBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -80,7 +83,34 @@ class GenreDetailActivity : AppCompatActivity() {
             is GenreDetailState.SetTagDescription -> {
                 setTagDescription(it.tag)
             }
+            is GenreDetailState.ShowAlbumResult -> {
+                showFragmentsNow(it.albumListResponse)
+            }
         }
+    }
+
+    private fun showFragmentsNow(albumListResponse: AlbumListResponse) {
+        val adapter = TagInfoFragmentAdapter(
+            supportFragmentManager,
+            lifecycle,
+            albumListResponse.albums.album)
+        binding.vp2Tag.adapter = adapter
+        setTabs()
+    }
+
+    private fun setTabs() {
+        binding.apply {
+            val tabList = getTabList()
+            tabList.forEach {
+                binding.tlTagContentsTitle.addTab(binding.tlTagContentsTitle.newTab().apply {
+                    text = it
+                })
+            }
+        }
+    }
+
+    private fun getTabList(): List<String> {
+        return listOf("Albums", "Artists", "Tracks")
     }
 
     private fun setTagDescription(tag: Tag) {
@@ -108,7 +138,9 @@ class GenreDetailActivity : AppCompatActivity() {
     }
 
     private fun showError() {
-        SnackBarBuilder.getSnackbar(this, getString(R.string.error_something_went_wrong), Snackbar.LENGTH_SHORT).show()
+        SnackBarBuilder.getSnackbar(this,
+            getString(R.string.error_something_went_wrong),
+            Snackbar.LENGTH_SHORT).show()
     }
 
 

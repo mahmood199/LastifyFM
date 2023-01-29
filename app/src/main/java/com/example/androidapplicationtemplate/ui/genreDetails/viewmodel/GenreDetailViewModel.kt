@@ -96,18 +96,12 @@ class GenreDetailViewModel @Inject constructor(
         viewModelScope.launch {
             getTopAlbumsByTagUseCase(tag).collect {
                 when(it) {
-                    Resource.Default -> {
-
-                    }
                     is Resource.Failure -> {
-
-                    }
-                    Resource.Loading -> {
-
+                        _state.value = GenreDetailState.Error(it.failureStatus, "")
                     }
                     is Resource.Success -> {
-
-                    }
+                        _state.value = GenreDetailState.ShowAlbumResult(it.value)
+                    } else -> {}
                 }
             }
         }
