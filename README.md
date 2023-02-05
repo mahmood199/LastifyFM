@@ -27,7 +27,8 @@ This project follows the clean architecture which implies that each components i
 
 ### Diagramatic representation of Dataflow
 
-![image](https://user-images.githubusercontent.com/58071934/215340662-c22a93da-7799-46d5-a2d6-e68e320df4d1.png)
+![image](https://user-images.githubusercontent.com/58071934/216809090-696def3a-4ea5-4b3b-8901-fbe3cf8b98c5.png)
+
 
 
 ### App screens
