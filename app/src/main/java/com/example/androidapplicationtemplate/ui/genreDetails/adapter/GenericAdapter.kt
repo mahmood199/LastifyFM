@@ -1,5 +1,6 @@
 package com.example.androidapplicationtemplate.ui.genreDetails.adapter
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.example.androidapplicationtemplate.databinding.LayoutItemAlbumBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemArtistsBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemTagsBinding
 import com.example.androidapplicationtemplate.databinding.LayoutItemTracksBinding
+import com.example.androidapplicationtemplate.util.loadImageSafely
 
 class GenericAdapter(
     val clickAction: (RecyclerViewItemClickAction) -> Unit,
@@ -81,12 +83,12 @@ class GenericAdapter(
                     clickAction.invoke(RecyclerViewItemClickAction.AlbumClicked(album))
                 }
                 tvAlbum.text = album.name
-                Glide.with(root)
-                    .load(album.images[0].text ?: "")
-                    .placeholder(ContextCompat.getDrawable(root.context, R.drawable.place_holder))
-                    .transition(DrawableTransitionOptions.withCrossFade(
-                        CROSS_FADE_ANIMATION_DURATION))
-                    .into(ivAlbum)
+
+                Handler().postDelayed({
+                    ivAlbum.loadImageSafely(
+                        url = album.images[0].text,
+                    )
+                }, 5000)
             }
         }
     }
