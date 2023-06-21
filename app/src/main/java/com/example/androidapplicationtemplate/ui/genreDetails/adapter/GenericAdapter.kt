@@ -84,11 +84,9 @@ class GenericAdapter(
                 }
                 tvAlbum.text = album.name
 
-                Handler().postDelayed({
-                    ivAlbum.loadImageSafely(
-                        url = album.images[0].text,
-                    )
-                }, 5000)
+                ivAlbum.loadImageSafely(
+                    url = album.images[0].text,
+                )
             }
         }
     }
